@@ -1,5 +1,5 @@
 """PyLearn backend — FastAPI serving API + frontend."""
-import os, sys, json, shutil, subprocess, time, uuid, glob, asyncio
+import os, sys, json, shutil, subprocess, tempfile, time, uuid, glob, asyncio
 from pathlib import Path
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.responses import FileResponse, JSONResponse, PlainTextResponse
@@ -9,11 +9,26 @@ from pydantic import BaseModel
 
 ROOT = Path(__file__).resolve().parent.parent
 FRONTEND = ROOT / "frontend"
-NB_DIR = ROOT / "notebooks"
-DATA_DIR = ROOT / "data"
-PROJ_DIR = ROOT / "projects"
-for d in (NB_DIR, DATA_DIR, PROJ_DIR):
-    d.mkdir(exist_ok=True)
+
+
+def ensure_dir(p: Path) -> Path:
+    """Create dir, falling back to /tmp on read-only filesystems (serverless)."""
+    try:
+        p.mkdir(parents=True, exist_ok=True)
+        # prove writability (Vercel: read-only except /tmp)
+        probe = p / ".write_test"
+        probe.touch()
+        probe.unlink(missing_ok=True)
+        return p
+    except Exception:
+        fb = Path(tempfile.gettempdir()) / "pylearn" / p.name
+        fb.mkdir(parents=True, exist_ok=True)
+        return fb
+
+
+NB_DIR = ensure_dir(ROOT / "notebooks")
+DATA_DIR = ensure_dir(ROOT / "data")
+PROJ_DIR = ensure_dir(ROOT / "projects")
 
 sys.path.insert(0, str(Path(__file__).parent))
 from kernel_manager import get_kernel, KERNELS, gpu_info
