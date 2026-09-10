@@ -1,0 +1,23 @@
+[project]
+name = "pylearn-platform"
+version = "1.0.0"
+description = "PyLearn — Interactive Python Learning Platform (FastAPI + real kernel + IDE)"
+requires-python = ">=3.10"
+dependencies = [
+  "fastapi>=0.110",
+  "uvicorn>=0.29",
+  "python-multipart>=0.0.9",
+  "pandas",
+  "numpy",
+  "matplotlib",
+  "seaborn",
+  "plotly",
+  "sympy",
+  "scikit-learn",
+  "psutil",
+  "openpyxl",
+  "pyarrow",
+]
+
+[tool.vercel]
+entrypoint = "backend.main:app"
