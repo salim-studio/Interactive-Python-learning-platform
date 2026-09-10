@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PyLearn — Interactive Python Learning Platform</title>
+<link rel="stylesheet" href="static/styles.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.27.0/plotly.min.js"></script>
+</head>
+<body>
+<div id="toolbar">
+  <span class="logo">◈ PyLearn</span>
+  <button data-i="new" onclick="NB.newNotebook()">＋ New</button>
+  <button onclick="document.getElementById('openFile').click()">Open</button>
+  <input type="file" id="openFile" accept=".ipynb,.py,.csv,.json,.txt" hidden onchange="NB.openLocal(this)">
+  <button class="primary" id="btnRunAll" onclick="NB.runAll()">▶ Run All</button>
+  <button onclick="NB.stop()">⏹ Stop</button>
+  <button onclick="NB.restartKernel()">↻ Kernel</button>
+  <button onclick="UI.tab('libs')">📦 Libraries</button>
+  <button onclick="document.getElementById('upFile').click()">⤒ Upload</button>
+  <input type="file" id="upFile" hidden onchange="Files.upload(this)">
+  <button onclick="NB.exportMenu()">⤓ Export</button>
+  <button onclick="AI.open()">🤖 AI Tutor</button>
+  <button class="mobile-toggle" onclick="UI.mobileToggle()">CODE | OUTPUT</button>
+  <span style="flex:1"></span>
+  <span class="small"><span id="kernel-dot"></span> <span id="kernel-label">Python — Ready</span></span>
+  <select id="langSel" onchange="I18N.set(this.value)" style="width:auto"><option value="en">EN</option><option value="ar">AR</option><option value="fr">FR</option></select>
+  <button onclick="UI.theme()">🌗 Theme</button>
+  <select id="modeSel" onchange="UI.mode(this.value)" style="width:auto"><option value="beginner">Beginner</option><option value="pro">Professional</option></select>
+</div>
+<div id="probar" style="display:none;background:var(--bg3);border-bottom:1px solid var(--line);padding:6px 10px;gap:6px;flex-wrap:wrap">
+  <button onclick="Terminal.open()">⌨ Terminal help</button>
+  <button onclick="UI.tab('vars')">Variables</button>
+  <button onclick="UI.tab('history')">History</button>
+  <button onclick="SysInfo.show()">⚙ Env / GPU</button>
+  <span class="small mut" id="execMode">Execution: ○ Local (this computer, trusted) ○ Cloud (sandboxed — select Local by default)</span>
+</div>
+<div id="layout">
+  <aside id="sidebar">
+    <div id="side-tabs">
+      <button data-t="files" class="active" onclick="UI.tab('files')">Files</button>
+      <button data-t="lessons" onclick="UI.tab('lessons')">Lessons</button>
+      <button data-t="exercises" onclick="UI.tab('exercises')">Exercises</button>
+      <button data-t="datasets" onclick="UI.tab('datasets')">Datasets</button>
+      <button data-t="libs" onclick="UI.tab('libs')">Libraries</button>
+      <button data-t="vars" onclick="UI.tab('vars')">Variables</button>
+      <button data-t="history" onclick="UI.tab('history')">History</button>
+      <button data-t="progress" onclick="UI.tab('progress')">Progress</button>
+    </div>
+    <div id="side-body"></div>
+  </aside>
+  <div id="main">
+    <div id="cells-pane"></div>
+    <div id="divider" title="drag to resize"></div>
+    <div id="out-pane"><div class="card"><h4>📊 Output & Results</h4><p class="mut small">Run a cell on the left (Shift+Enter). Tables, charts, LaTeX and errors appear here.</p></div></div>
+  </div>
+</div>
+<div id="statusbar">
+  <span id="st-py">Python …</span><span>UTF-8</span><span id="st-kernel">Kernel: Connected</span>
+  <span id="st-mem">Memory: …</span><span id="st-cpu">CPU: …</span><span id="st-exec">Exec: …</span>
+  <span style="flex:1"></span><span id="st-save">Auto-save ✓</span>
+</div>
+<div id="modal"><div id="modal-box"></div></div>
+<script src="static/app.js"></script>
+</body>
+</html>
