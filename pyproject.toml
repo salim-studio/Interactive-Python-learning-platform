@@ -16,7 +16,8 @@ dependencies = [
   "scikit-learn",
   "psutil",
   "openpyxl",
-  "pyarrow",
+  # NOTE: pyarrow (parquet) excluded — too heavy for serverless bundles.
+  # Install locally for parquet: pip install pyarrow
 ]
 
 [tool.vercel]

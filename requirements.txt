@@ -10,4 +10,4 @@ sympy
 scikit-learn
 psutil
 openpyxl
-pyarrow
+# pyarrow excluded (serverless size limit) — pip install pyarrow locally for parquet

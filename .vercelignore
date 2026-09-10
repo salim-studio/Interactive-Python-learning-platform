@@ -1,0 +1,8 @@
+# Exclude from Vercel serverless bundle (keeps function under size limit)
+data/
+notebooks/
+projects/
+test_kernel.py
+start.bat
+.gitignore
+README.md
